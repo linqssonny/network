@@ -1,6 +1,6 @@
 #使用方式
 
-    api 'com.sonnyjack.library:network:0.1.0'
+    implementation 'com.sonnyjack.library:network:0.1.0'
 
 或者
 
