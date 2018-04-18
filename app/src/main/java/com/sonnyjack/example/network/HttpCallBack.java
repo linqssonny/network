@@ -38,6 +38,7 @@ public abstract class HttpCallBack implements IHttpCallBack {
             //这里可以关闭等待框
             Toast.makeText(httpParams.getContext(), "onAfter 被执行了...", Toast.LENGTH_SHORT).show();
         }
+        onAfter((HttpParams) httpParams);
     }
 
     @Override
@@ -74,4 +75,8 @@ public abstract class HttpCallBack implements IHttpCallBack {
     }
 
     public abstract void onSuccess(HttpParams httpParams, String body);
+
+    public void onAfter(HttpParams httpParams) {
+
+    }
 }

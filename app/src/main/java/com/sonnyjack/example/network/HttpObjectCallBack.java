@@ -58,6 +58,7 @@ public abstract class HttpObjectCallBack<T> implements IHttpCallBack {
             //这里可以关闭等待框
             Toast.makeText(httpParams.getContext(), "onAfter 被执行了...", Toast.LENGTH_SHORT).show();
         }
+        onAfter((HttpParams) httpParams);
     }
 
     @Override
@@ -80,7 +81,7 @@ public abstract class HttpObjectCallBack<T> implements IHttpCallBack {
         }
         //这里可以用fastjson、gson等转为对象
         if (mClassType == String.class) {
-            onSuccess(params, result);
+            onSuccess(params, (T) result);
         } else {
             T obj = JSON.parseObject(body, mClassType);
             onSuccess(params, obj);
@@ -100,4 +101,8 @@ public abstract class HttpObjectCallBack<T> implements IHttpCallBack {
     }
 
     public abstract void onSuccess(HttpParams httpParams, T t);
+
+    public void onAfter(HttpParams httpParams) {
+
+    }
 }

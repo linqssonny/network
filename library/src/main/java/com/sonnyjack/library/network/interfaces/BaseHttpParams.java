@@ -71,11 +71,11 @@ public abstract class BaseHttpParams {
         StringBuffer stringBuffer = new StringBuffer();
         if (null != param && param.size() > 0) {
             for (Map.Entry<String, Object> entry : param.entrySet()) {
-                if (stringBuffer.length() > 0) {
-                    stringBuffer.append("&");
-                }
                 if (null == entry) {
                     continue;
+                }
+                if (stringBuffer.length() > 0) {
+                    stringBuffer.append("&");
                 }
                 stringBuffer.append(entry.getKey()).append("=").append(entry.getValue().toString());
             }
@@ -136,5 +136,20 @@ public abstract class BaseHttpParams {
 
     public void setHandler(Handler handler) {
         this.handler = handler;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("context = " + (null == context ? "null" : context));
+        stringBuilder.append("; loading = " + loading);
+        stringBuilder.append("; httpUrl = " + httpUrl);
+        stringBuilder.append("; param = {" + getParamString() + "}");
+        stringBuilder.append("; tag = " + (null == tag ? "null" : tag.toString()));
+        stringBuilder.append("; asyncBack = " + asyncBack);
+        stringBuilder.append("; saveFilePath = " + (null == saveFilePath ? "" : saveFilePath));
+        stringBuilder.append("; saveFileName = " + (null == saveFileName ? "" : saveFileName));
+        stringBuilder.append("; handler = " + (null == handler ? "" : handler));
+        return stringBuilder.toString();
     }
 }
