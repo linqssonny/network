@@ -14,9 +14,9 @@
 
 如果你的项目混淆：
 
--dontwarn com.sonnyjack.library.**
+-dontwarn com.sonnyjack.library.network.**
 
--keep class com.sonnyjack.library.** {*;}
+-keep class com.sonnyjack.library.network.** {*;}
 
 -dontwarn okhttp3.**
 
