@@ -1,7 +1,7 @@
 package com.sonnyjack.library.network;
 
 
-import com.sonnyjack.library.network.interfaces.BaseHttpParams;
+import com.sonnyjack.library.network.bean.BaseHttpParams;
 import com.sonnyjack.library.network.interfaces.IHttpCallBack;
 
 import java.io.IOException;

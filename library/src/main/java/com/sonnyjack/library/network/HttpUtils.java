@@ -4,8 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
+import com.sonnyjack.library.network.bean.BaseHttpParams;
 import com.sonnyjack.library.network.constant.HttpCode;
-import com.sonnyjack.library.network.interfaces.BaseHttpParams;
 import com.sonnyjack.library.network.interfaces.IHttpCallBack;
 
 import java.io.File;
@@ -161,6 +161,7 @@ public class HttpUtils {
             b.tag(httpParams.getTag());
         }
         b.post(formBody);
+        addHeaders(b, httpParams);
         return b.build();
     }
 
@@ -258,82 +259,9 @@ public class HttpUtils {
         if (null != httpParams.getTag()) {
             b.tag(httpParams.getTag());
         }
+        addHeaders(b, httpParams);
         return b.build();
     }
-
-    /***
-     * 请求前检查参数
-     *
-     * @param httpParams
-     */
-    private void checkParams(BaseHttpParams httpParams) {
-        if (null == httpParams) {
-            throw new NullPointerException("httpParams is not null");
-        }
-        if (TextUtils.isEmpty(httpParams.getHttpUrl())) {
-            throw new NullPointerException("httpUrl is not null");
-        }
-        httpParams.setHandler(mHandler);
-    }
-
-    /***
-     * 请求前调用
-     *
-     * @param httpParams
-     * @param httpCallBack
-     */
-    private void sendOnBeforeCallBack(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack) {
-        if (null != httpCallBack) {
-            mHandler.post(() -> httpCallBack.onBefore(httpParams));
-        }
-    }
-
-    /***
-     * 请求结束后调用
-     *
-     * @param httpParams
-     * @param httpCallBack
-     */
-    private void sendOnAfterCallBack(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack) {
-        if (null != httpCallBack) {
-            mHandler.post(() -> httpCallBack.onAfter(httpParams));
-        }
-    }
-
-    /***
-     * 请求失败后调用
-     *
-     * @param httpParams
-     * @param httpCallBack
-     * @param message
-     */
-    private void sendFailCallBack(BaseHttpParams httpParams, IHttpCallBack httpCallBack, int error, String message) {
-        if (null != httpCallBack) {
-            if (httpParams.isAsyncBack()) {
-                httpCallBack.onFail(httpParams, error, message);
-                return;
-            }
-            mHandler.post(() -> httpCallBack.onFail(httpParams, error, message));
-        }
-    }
-
-    /****
-     * 请求成功后调用
-     *
-     * @param httpParams
-     * @param httpCallBack
-     * @param body
-     */
-    private void sendSuccessCallBack(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack, final String body) {
-        if (null != httpCallBack) {
-            if (httpParams.isAsyncBack()) {
-                httpCallBack.onSuccess(httpParams, body);
-                return;
-            }
-            mHandler.post(() -> httpCallBack.onSuccess(httpParams, body));
-        }
-    }
-
 
     /************************************************************************************
      * 下载(start)
@@ -341,12 +269,7 @@ public class HttpUtils {
     public void download(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack) {
         checkParams(httpParams);
         checkSaveFile(httpParams);
-        Request.Builder builder = new Request.Builder();
-        builder.url(httpParams.getHttpUrl());
-        if (null != httpParams.getTag()) {
-            builder.tag(httpParams.getTag());
-        }
-        Request request = builder.build();
+        Request request = createDownloadRequest(httpParams);
         OkHttpClient okHttpClient = mOkHttpClient.newBuilder()
                 .readTimeout(DEFAULT_DOWNLOAD_TIME, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_DOWNLOAD_TIME, TimeUnit.SECONDS)
@@ -397,6 +320,16 @@ public class HttpUtils {
         if (TextUtils.isEmpty(httpParams.getSaveFileName())) {
             httpParams.setSaveFileName(String.valueOf(System.currentTimeMillis()));
         }
+    }
+
+    private Request createDownloadRequest(BaseHttpParams httpParams) {
+        Request.Builder builder = new Request.Builder();
+        builder.url(httpParams.getHttpUrl());
+        if (null != httpParams.getTag()) {
+            builder.tag(httpParams.getTag());
+        }
+        addHeaders(builder, httpParams);
+        return builder.build();
     }
 
     /************************************************************************************
@@ -474,12 +407,115 @@ public class HttpUtils {
             b.tag(httpParams.getTag());
         }
         b.post(new ProgressRequestBody(requestBody, new ProgressListener(httpParams, httpCallBack)));
+        addHeaders(b, httpParams);
         return b.build();
     }
 
     /************************************************************************************
      * 上传(end)
      ***********************************************************************************/
+
+    /***
+     * 请求前检查参数
+     *
+     * @param httpParams
+     */
+    private void checkParams(BaseHttpParams httpParams) {
+        if (null == httpParams) {
+            throw new NullPointerException("httpParams is not null");
+        }
+        if (TextUtils.isEmpty(httpParams.getHttpUrl())) {
+            throw new NullPointerException("httpUrl is not null");
+        }
+        httpParams.setHandler(mHandler);
+    }
+
+    /**
+     * 添加Header
+     *
+     * @param builder
+     * @param httpParams
+     */
+    private void addHeaders(Request.Builder builder, BaseHttpParams httpParams) {
+        if (null == builder) {
+            return;
+        }
+        if (null == httpParams) {
+            return;
+        }
+        if (null == httpParams.getHeaders() || httpParams.getHeaders().isEmpty()) {
+            return;
+        }
+        for (Map.Entry<String, Object> entry : httpParams.getHeaders().entrySet()) {
+            if (null == entry) {
+                continue;
+            }
+            String headerName = entry.getKey();
+            if (TextUtils.isEmpty(headerName)) {
+                continue;
+            }
+            String headerValue = (null == entry.getValue() ? "" : entry.getValue().toString());
+            builder.addHeader(headerName, headerValue);
+        }
+    }
+
+    /***
+     * 请求前调用
+     *
+     * @param httpParams
+     * @param httpCallBack
+     */
+    private void sendOnBeforeCallBack(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack) {
+        if (null != httpCallBack) {
+            mHandler.post(() -> httpCallBack.onBefore(httpParams));
+        }
+    }
+
+    /***
+     * 请求结束后调用
+     *
+     * @param httpParams
+     * @param httpCallBack
+     */
+    private void sendOnAfterCallBack(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack) {
+        if (null != httpCallBack) {
+            mHandler.post(() -> httpCallBack.onAfter(httpParams));
+        }
+    }
+
+    /***
+     * 请求失败后调用
+     *
+     * @param httpParams
+     * @param httpCallBack
+     * @param message
+     */
+    private void sendFailCallBack(BaseHttpParams httpParams, IHttpCallBack httpCallBack, int error, String message) {
+        if (null != httpCallBack) {
+            if (httpParams.isAsyncBack()) {
+                httpCallBack.onFail(httpParams, error, message);
+                return;
+            }
+            mHandler.post(() -> httpCallBack.onFail(httpParams, error, message));
+        }
+    }
+
+    /****
+     * 请求成功后调用
+     *
+     * @param httpParams
+     * @param httpCallBack
+     * @param body
+     */
+    private void sendSuccessCallBack(final BaseHttpParams httpParams, final IHttpCallBack httpCallBack, final String body) {
+        if (null != httpCallBack) {
+            if (httpParams.isAsyncBack()) {
+                httpCallBack.onSuccess(httpParams, body);
+                return;
+            }
+            mHandler.post(() -> httpCallBack.onSuccess(httpParams, body));
+        }
+    }
 
     /***
      * 取消请求  by  tag

@@ -1,6 +1,8 @@
 package com.sonnyjack.library.network.interfaces;
 
 
+import com.sonnyjack.library.network.bean.BaseHttpParams;
+
 /**
  * @author SonnyJack
  * @data 2018/4/17 21:58

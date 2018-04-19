@@ -1,6 +1,6 @@
 package com.sonnyjack.example.network;
 
-import com.sonnyjack.library.network.interfaces.BaseHttpParams;
+import com.sonnyjack.library.network.bean.BaseHttpParams;
 
 /**
  * @author SonnyJack

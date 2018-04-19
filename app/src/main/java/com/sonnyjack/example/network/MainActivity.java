@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import com.sonnyjack.example.network.bean.Result2;
 import com.sonnyjack.library.network.HttpUtils;
-import com.sonnyjack.library.network.interfaces.BaseHttpParams;
-import com.sonnyjack.library.network.interfaces.IHttpCallBack;
 import com.sonnyjack.permission.IRequestPermissionCallBack;
 import com.sonnyjack.permission.PermissionUtils;
 

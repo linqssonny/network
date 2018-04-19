@@ -2,7 +2,7 @@ package com.sonnyjack.example.network;
 
 import android.widget.Toast;
 
-import com.sonnyjack.library.network.interfaces.BaseHttpParams;
+import com.sonnyjack.library.network.bean.BaseHttpParams;
 import com.sonnyjack.library.network.interfaces.IHttpCallBack;
 
 /**

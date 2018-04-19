@@ -1,4 +1,4 @@
-package com.sonnyjack.library.network.interfaces;
+package com.sonnyjack.library.network.bean;
 
 import android.content.Context;
 import android.os.Handler;
@@ -65,6 +65,24 @@ public abstract class BaseHttpParams {
             return;
         }
         param.put(name, value.toString());
+    }
+
+    //Http请求头
+    private Map<String, Object> headers = new HashMap<>();
+
+    public Map<String, Object> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, Object> headers) {
+        this.headers = headers;
+    }
+
+    public void addheader(String name, Object value) {
+        if (null == value) {
+            return;
+        }
+        headers.put(name, value.toString());
     }
 
     public String getParamString() {
