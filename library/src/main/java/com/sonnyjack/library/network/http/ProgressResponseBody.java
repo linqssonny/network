@@ -1,4 +1,4 @@
-package com.sonnyjack.library.network;
+package com.sonnyjack.library.network.http;
 
 import java.io.IOException;
 

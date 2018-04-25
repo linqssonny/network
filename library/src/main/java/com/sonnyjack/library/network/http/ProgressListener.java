@@ -1,8 +1,5 @@
-package com.sonnyjack.library.network;
+package com.sonnyjack.library.network.http;
 
-
-import com.sonnyjack.library.network.bean.BaseHttpParams;
-import com.sonnyjack.library.network.interfaces.IHttpCallBack;
 
 /**
  * @author SonnyJack
@@ -14,17 +11,15 @@ import com.sonnyjack.library.network.interfaces.IHttpCallBack;
  */
 class ProgressListener {
 
-    private BaseHttpParams mBaseHttpParams;
     private IHttpCallBack mIHttpCallBack;
 
-    public ProgressListener(BaseHttpParams httpParams, IHttpCallBack httpCallBack) {
-        this.mBaseHttpParams = httpParams;
+    public ProgressListener(IHttpCallBack httpCallBack) {
         this.mIHttpCallBack = httpCallBack;
     }
 
     public void onProgress(final long bytesRead, final long contentLength, final boolean finish) {
         if (null != mIHttpCallBack) {
-            mBaseHttpParams.getHandler().post(() -> mIHttpCallBack.onProgress(mBaseHttpParams, bytesRead, contentLength, finish));
+            mIHttpCallBack.getHandler().post(() -> mIHttpCallBack.progress(bytesRead, contentLength, finish));
         }
     }
 }

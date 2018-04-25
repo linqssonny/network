@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.sonnyjack.example.network.bean.Result2;
-import com.sonnyjack.library.network.HttpUtils;
+import com.sonnyjack.library.network.http.HttpManager;
 import com.sonnyjack.permission.IRequestPermissionCallBack;
 import com.sonnyjack.permission.PermissionUtils;
 
@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
         httpParams.setHttpUrl("http://wthrcdn.etouch.cn/weather_mini");
         httpParams.setTag(System.currentTimeMillis());
         httpParams.addParam("citykey", "101010100");
-        /*HttpUtils.getInstance().getAsync(httpParams, new HttpCallBack() {
+        /*HttpManager.getInstance().getAsync(httpParams, new HttpCallBack() {
             @Override
             public void onSuccess(HttpParams httpParams, String body) {
                 Log.e(TAG, body);
             }
         });*/
 
-        /*HttpUtils.getInstance().getAsync(httpParams, new HttpObjectCallBack<Result>() {
+        /*HttpManager.getInstance().getAsync(httpParams, new HttpObjectCallBack<Result>() {
             @Override
             public void onSuccess(HttpParams httpParams, Result result) {
                 Log.e(TAG, result.getData());
@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        HttpUtils.getInstance().getAsync(httpParams, new HttpObjectCallBack<Result2>() {
+        HttpManager.getInstance().getAsync(httpParams, new HttpObjectCallBack<Result2>() {
             @Override
-            public void onSuccess(HttpParams httpParams, Result2 result) {
+            public void onSuccess(Result2 result) {
                 Log.e(TAG, result.getDesc());
                 Log.e(TAG, result.getStatus());
             }
@@ -86,15 +86,15 @@ public class MainActivity extends AppCompatActivity {
         httpParams.setHttpUrl("http://dldir1.qq.com/weixin/android/weixin661android1220_1.apk");
         httpParams.setSaveFilePath(getRootFolderAbsolutePath());
         httpParams.setSaveFileName(buildFileNameByUrl(httpParams.getHttpUrl()));
-        HttpUtils.getInstance().download(httpParams, new HttpCallBack() {
+        HttpManager.getInstance().download(httpParams, new HttpCallBack() {
             @Override
-            public void onSuccess(HttpParams httpParams, String body) {
+            public void onSuccess(String body) {
                 Toast.makeText(MainActivity.this, "下载成功：" + body, Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFail(HttpParams httpParams, int error, String message) {
-                super.onFail(httpParams, error, message);
+            public void onFail(int error, String message) {
+                super.onFail(error, message);
                 Toast.makeText(MainActivity.this, "下载失败：" + error, Toast.LENGTH_SHORT).show();
             }
         });

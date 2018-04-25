@@ -1,4 +1,4 @@
-package com.sonnyjack.library.network;
+package com.sonnyjack.library.network.http;
 
 import android.os.Environment;
 import android.text.TextUtils;

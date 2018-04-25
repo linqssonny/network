@@ -1,7 +1,6 @@
 package com.sonnyjack.library.network.bean;
 
 import android.content.Context;
-import android.os.Handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -145,17 +144,6 @@ public abstract class BaseHttpParams {
         this.saveFileName = saveFileName;
     }
 
-    //Handler
-    private Handler handler;
-
-    public Handler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(Handler handler) {
-        this.handler = handler;
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -167,7 +155,6 @@ public abstract class BaseHttpParams {
         stringBuilder.append("; asyncBack = " + asyncBack);
         stringBuilder.append("; saveFilePath = " + (null == saveFilePath ? "" : saveFilePath));
         stringBuilder.append("; saveFileName = " + (null == saveFileName ? "" : saveFileName));
-        stringBuilder.append("; handler = " + (null == handler ? "" : handler));
         return stringBuilder.toString();
     }
 }
