@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.ANDROID_MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
-        versionCode 3
-        versionName "0.2.0"
+        versionCode 4
+        versionName "0.2.1"
     }
 
     buildTypes {
@@ -42,7 +42,7 @@ publish {
     userOrg = 'sonnyjack'//bintray.com用户名
     groupId = 'com.sonnyjack.library'//jcenter上的路径
     artifactId = 'network'//项目名称
-    publishVersion = '0.2.0'//版本号
+    publishVersion = '0.2.1'//版本号
     desc = '这是一个基于OKHttp封装的库，提供get、post、download、upload操作。'//描述，不重要
     website = 'https://github.com/linqssonny/network'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }

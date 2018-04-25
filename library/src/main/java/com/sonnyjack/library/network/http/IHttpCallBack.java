@@ -22,7 +22,7 @@ public abstract class IHttpCallBack {
         mHttpRequestBody = httpRequestBody;
     }
 
-    public BaseHttpParams getBaseHttpParams() {
+    public BaseHttpParams getHttpParams() {
         return mHttpRequestBody.getHttpParams();
     }
 
@@ -35,11 +35,11 @@ public abstract class IHttpCallBack {
     }
 
     public Context getContext() {
-        return getBaseHttpParams().getContext();
+        return getHttpParams().getContext();
     }
 
     public void cancel() {
-        Object tag = getBaseHttpParams().getTag();
+        Object tag = getHttpParams().getTag();
         if (null == tag) {
             return;
         }

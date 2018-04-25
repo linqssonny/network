@@ -52,7 +52,7 @@ public class HttpManager {
      * @param connectionTime 连接时间  小于或等于0为默认值30秒
      * @param downloadTime   下载上传时间  小于或等于0为默认值30分钟
      */
-    private void init(long connectionTime, long downloadTime) {
+    public void init(long connectionTime, long downloadTime) {
         if (null == mSonnyJackHttpClient) {
             mSonnyJackHttpClient = new SonnyJackHttpClient(connectionTime, downloadTime);
         }

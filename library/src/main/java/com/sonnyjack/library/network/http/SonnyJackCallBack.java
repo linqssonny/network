@@ -140,7 +140,7 @@ public class SonnyJackCallBack implements okhttp3.Callback {
         if (null == httpCallBack) {
             return;
         }
-        if (httpCallBack.getBaseHttpParams().isAsyncBack()) {
+        if (httpCallBack.getHttpParams().isAsyncBack()) {
             httpCallBack.fail(error, message);
             return;
         }
@@ -157,7 +157,7 @@ public class SonnyJackCallBack implements okhttp3.Callback {
         if (null == httpCallBack) {
             return;
         }
-        if (httpCallBack.getBaseHttpParams().isAsyncBack()) {
+        if (httpCallBack.getHttpParams().isAsyncBack()) {
             httpCallBack.success(body);
             return;
         }

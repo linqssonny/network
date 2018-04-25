@@ -14,16 +14,16 @@ import com.sonnyjack.library.network.http.IHttpCallBack;
  */
 public abstract class HttpCallBack extends IHttpCallBack {
 
-    protected HttpParams getHttpParams() {
-        HttpParams httpParams = (HttpParams) getBaseHttpParams();
+    protected HttpParams getMyHttpParams() {
+        HttpParams httpParams = (HttpParams) this.getHttpParams();
         return httpParams;
     }
 
     @Override
     public final void before() {
-        if (getHttpParams().isLoading()) {
+        if (getMyHttpParams().isLoading()) {
             //这里可以显示等待框
-            Toast.makeText(getHttpParams().getContext(), "onBefore 被执行了...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getMyHttpParams().getContext(), "onBefore 被执行了...", Toast.LENGTH_SHORT).show();
         }
         //还可以 what you want to do
         onBefore();
@@ -41,18 +41,18 @@ public abstract class HttpCallBack extends IHttpCallBack {
     @Override
     public final void after() {
         //请求结束后回调
-        if (getHttpParams().isLoading()) {
+        if (getMyHttpParams().isLoading()) {
             //这里可以关闭等待框
-            Toast.makeText(getHttpParams().getContext(), "onAfter 被执行了...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getMyHttpParams().getContext(), "onAfter 被执行了...", Toast.LENGTH_SHORT).show();
         }
         onAfter();
     }
 
     @Override
     public final void fail(int error, String message) {
-        if (getHttpParams().isShowErrorMessage()) {
+        if (getMyHttpParams().isShowErrorMessage()) {
             //这里可以统一toast 错误信息
-            Toast.makeText(getHttpParams().getContext(), "弹出错误信息啦：" + message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getMyHttpParams().getContext(), "弹出错误信息啦：" + message, Toast.LENGTH_SHORT).show();
         }
         onFail(error, message);
     }
@@ -60,7 +60,7 @@ public abstract class HttpCallBack extends IHttpCallBack {
     @Override
     public final void success(String body) {
         String result = body;
-        if (getHttpParams().isAnalysisResult()) {
+        if (getMyHttpParams().isAnalysisResult()) {
             //这里可以统一进行解析一层返回的数据并且可以用fastjson、gson等转为对象
             result = body;
         }
