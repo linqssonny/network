@@ -1,14 +1,14 @@
 #使用方式
 
-    implementation 'com.sonnyjack.library:network:0.1.0'
+    implementation 'com.sonnyjack.library:network:0.2.1'
 
 或者
 
-    api 'com.sonnyjack.library:network:0.1.0'
+    api 'com.sonnyjack.library:network:0.2.1'
     
 该库引用com.android.support:appcompat-v7:27.1.0，如果你想统一你项目中的appcompat-v7的版本，可像这样引用：
 
-       api ('com.sonnyjack.library:network:0.1.0'){
+       api ('com.sonnyjack.library:network:0.2.1'){
             exclude(group: 'com.android.support', module: 'appcompat-v7')
         }
 
@@ -69,7 +69,7 @@
           }
     });
 
-
+# okhttp默认是支持https的，但仅限于CA机构颁发的证书，自签名网站是需要自己处理，即将支持。
 # 开发者可自行第二次分装，详情可查看demo。
 
 

@@ -14,6 +14,8 @@ import com.sonnyjack.library.network.http.HttpManager;
 import com.sonnyjack.permission.IRequestPermissionCallBack;
 import com.sonnyjack.permission.PermissionUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,16 +29,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void click(View view) {
-        //request();
-        startDownload();
+        request();//普通请求
+        //requestForAddCustomCertificates();//自定义证书请求
+        //startDownload();//下载
     }
 
     private void request() {
         HttpParams httpParams = new HttpParams();
         httpParams.setContext(this);
         httpParams.setLoading(true);
-        httpParams.setHttpUrl("http://wthrcdn.etouch.cn/weather_mini");
         httpParams.setTag(System.currentTimeMillis());
+        httpParams.setHttpUrl("http://wthrcdn.etouch.cn/weather_mini");
         httpParams.addParam("citykey", "101010100");
         /*HttpManager.getInstance().getAsync(httpParams, new HttpCallBack() {
             @Override
@@ -63,6 +66,44 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //自定义证书访问
+    private void requestForAddCustomCertificates() {
+        InputStream[] inputStreams = null;
+        try {
+            String[] certFiles = getAssets().list("certs");
+            if (null == certFiles || certFiles.length <= 0) {
+                return;
+            }
+            inputStreams = new InputStream[certFiles.length];
+            for (int i = 0; i < certFiles.length; i++) {
+                inputStreams[i] = getAssets().open("certs/" + certFiles[i]);
+            }
+        } catch (Exception e) {
+
+        }
+        HttpManager.getInstance().init(inputStreams);
+
+        HttpParams httpParams = new HttpParams();
+        httpParams.setContext(this);
+        httpParams.setLoading(true);
+        httpParams.setShowErrorMessage(true);
+        httpParams.setTag(System.currentTimeMillis());
+        httpParams.setHttpUrl("https://kyfw.12306.cn/otn/");
+        HttpManager.getInstance().getAsync(httpParams, new HttpObjectCallBack<String>() {
+            @Override
+            public void onSuccess(String s) {
+                //Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
+                Log.e(MainActivity.this.getClass().getSimpleName(), s);
+            }
+
+            @Override
+            public void onFail(int error, String message) {
+                super.onFail(error, message);
+                Log.e(MainActivity.this.getClass().getSimpleName(), message);
+            }
+        });
+    }
+
     private void startDownload() {
         ArrayList<String> permissionList = new ArrayList<>();
         permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -79,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void download(){
+    private void download() {
         HttpParams httpParams = new HttpParams();
         httpParams.setContext(this);
         httpParams.setLoading(true);

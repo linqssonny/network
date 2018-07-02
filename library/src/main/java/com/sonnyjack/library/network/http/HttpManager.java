@@ -8,6 +8,7 @@ import com.sonnyjack.library.network.bean.BaseHttpParams;
 import com.sonnyjack.library.network.constant.HttpCode;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -49,13 +50,31 @@ public class HttpManager {
     /**
      * 初始化
      *
+     * @param inputStreams 证书流
+     */
+    public void init(InputStream... inputStreams) {
+        init(0, 0, inputStreams);
+    }
+
+    /**
+     * 初始化
+     *
      * @param connectionTime 连接时间  小于或等于0为默认值30秒
      * @param downloadTime   下载上传时间  小于或等于0为默认值30分钟
      */
     public void init(long connectionTime, long downloadTime) {
-        if (null == mSonnyJackHttpClient) {
-            mSonnyJackHttpClient = new SonnyJackHttpClient(connectionTime, downloadTime);
-        }
+        init(connectionTime, downloadTime, (InputStream) null);
+    }
+
+    /**
+     * 初始化
+     *
+     * @param connectionTime 连接时间  小于或等于0为默认值30秒
+     * @param downloadTime   下载上传时间  小于或等于0为默认值30分钟
+     * @param inputStreams   证书流
+     */
+    public void init(long connectionTime, long downloadTime, InputStream... inputStreams) {
+        mSonnyJackHttpClient = new SonnyJackHttpClient(connectionTime, downloadTime, inputStreams);
     }
 
     private OkHttpClient getHttpClient() {

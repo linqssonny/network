@@ -147,10 +147,7 @@ class RequestHelper {
      * @param httpParams
      */
     private static void addHeaders(Request.Builder builder, BaseHttpParams httpParams) {
-        if (null == builder) {
-            return;
-        }
-        if (null == httpParams) {
+        if (null == builder || null == httpParams) {
             return;
         }
         if (null == httpParams.getHeaders() || httpParams.getHeaders().isEmpty()) {

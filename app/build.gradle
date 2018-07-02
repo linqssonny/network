@@ -8,6 +8,13 @@ android {
         targetSdkVersion Integer.parseInt(project.ANDROID_TARGET_SDK_VERSION)
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            //abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+            //abiFilters "armeabi-v7a", "arm64-v8a"
+            //abiFilters "armeabi", "armeabi-v7a"
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
